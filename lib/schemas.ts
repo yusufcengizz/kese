@@ -24,7 +24,7 @@ export type RegisterInput = z.infer<typeof registerSchema>;
 export const accountSchema = z.object({
   name: z.string().min(1, "Hesap adı zorunlu").max(100),
   type: z.enum(["cash", "bank", "credit_card"], { message: "Hesap tipi seçin" }),
-  opening_balance: z.coerce
+  opening_balance: z
     .number({ message: "Geçerli bir tutar girin" })
     .min(0, "Açılış bakiyesi negatif olamaz"),
 });
@@ -45,7 +45,7 @@ export const transactionSchema = z.object({
   account_id: z.string().uuid("Hesap seçin"),
   category_id: z.string().uuid().optional(),
   type: z.enum(["income", "expense"], { message: "İşlem tipi seçin" }),
-  amount: z.coerce
+  amount: z
     .number({ message: "Geçerli bir tutar girin" })
     .positive("Tutar sıfırdan büyük olmalı"),
   occurred_on: z.string().min(1, "Tarih seçin"),

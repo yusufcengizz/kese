@@ -1,8 +1,6 @@
-export default function DashboardPage() {
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold">Dashboard</h1>
-      <p className="text-muted-foreground mt-1">Faz 6&apos;da tamamlanacak</p>
-    </div>
-  );
+import { redirect } from "next/navigation";
+
+// Dashboard moved to /dashboard — redirect for any direct hits
+export default function AppRootPage() {
+  redirect("/dashboard");
 }

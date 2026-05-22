@@ -4,21 +4,30 @@ import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { Loader2, MailCheck } from "lucide-react";
 
 import { registerSchema, type RegisterInput } from "@/lib/schemas";
 import { signUp } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function RegisterPage() {
   const [serverError, setServerError] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
 
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -27,7 +36,35 @@ export default function RegisterPage() {
   async function onSubmit(data: RegisterInput) {
     setServerError(null);
     const result = await signUp(data);
-    if (result?.error) setServerError(result.error);
+    if (result?.error) {
+      setServerError(result.error);
+    } else if (result?.needsConfirmation) {
+      setEmailSent(true);
+    }
+  }
+
+  if (emailSent) {
+    return (
+      <main className="flex min-h-screen items-center justify-center p-6">
+        <Card className="w-full max-w-sm text-center">
+          <CardHeader>
+            <div className="flex justify-center mb-2">
+              <MailCheck className="size-10 text-primary" />
+            </div>
+            <CardTitle className="text-xl font-serif">E-postanı kontrol et</CardTitle>
+            <CardDescription>
+              <strong>{getValues("email")}</strong> adresine onay linki gönderdik.
+              Linke tıkladıktan sonra giriş yapabilirsin.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter className="justify-center">
+            <Link href="/login" className="text-sm text-primary underline-offset-4 hover:underline">
+              Giriş sayfasına git
+            </Link>
+          </CardFooter>
+        </Card>
+      </main>
+    );
   }
 
   return (
