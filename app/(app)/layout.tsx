@@ -11,7 +11,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="flex h-screen overflow-hidden">
       <AppNav />
       <main className="flex-1 overflow-y-auto">
-        <div className="p-6 pb-24 md:pb-6">
+        <div className="p-6 pt-18 pb-24 md:pt-6 md:pb-6">
           {children}
         </div>
       </main>

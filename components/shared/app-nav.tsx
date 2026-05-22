@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, ArrowLeftRight, Wallet, Tag, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/actions/auth";
+import { ThemeToggle } from "./theme-toggle";
 
 const NAV_ITEMS = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -21,9 +22,12 @@ export function AppNav() {
     <>
       {/* Desktop sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 flex-col border-r border-border bg-card">
-        <div className="px-5 py-6">
-          <p className="font-serif text-lg font-semibold">Harcama Analiz</p>
-          <p className="text-xs text-muted-foreground mt-0.5">Finans takip</p>
+        <div className="px-5 py-6 flex items-start justify-between">
+          <div>
+            <p className="font-serif text-lg font-semibold">Harcama Analiz</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Finans takip</p>
+          </div>
+          <ThemeToggle className="size-8 mt-0.5" />
         </div>
 
         <nav className="flex-1 px-3 space-y-0.5">
@@ -56,6 +60,12 @@ export function AppNav() {
           </form>
         </div>
       </aside>
+
+      {/* Mobile top bar */}
+      <header className="md:hidden fixed top-0 inset-x-0 z-50 h-12 border-b border-border bg-card/90 backdrop-blur-sm flex items-center justify-between px-4">
+        <p className="font-serif font-semibold text-sm">Harcama Analiz</p>
+        <ThemeToggle className="size-8" />
+      </header>
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 border-t border-border bg-card">
